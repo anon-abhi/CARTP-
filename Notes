@@ -5,12 +5,17 @@ Need to learn:
 # Get-PsReadLineOption
 # Microsoft degital report 
 # MSRC blog post 
-
+# Bicep
+# Fido2 (phising resistance)
+# SocsProxy
+# lsadump::secrets
 
 Tools -
 # AZ power shell - in class
 # az cli
 # Microsoft Graph Module  - Mg module  - in class
+# User agent switch for web 
+# BrowserCore
 # 
 
 Production:
