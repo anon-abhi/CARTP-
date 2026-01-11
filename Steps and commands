@@ -76,4 +76,8 @@ The Microsoft Graph API is a unified, RESTful web API that serves as the gateway
 cloud services, including Microsoft 365, Windows, and Microsoft Entra ID (formerly Azure AD). It provides a single endpoint
 (https://graph.microsoft.com) for developers to build applications that interact with millions of users and their data. 
 
+Use Install-Module Microsoft.Graph to install (needs internet). 
+*Already installed on the student VM.*
+• Not to be confused with Microsoft Graph CLI :P Attacking
+
 
