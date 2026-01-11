@@ -67,3 +67,13 @@ A normal user has many interesting permissions in Entra ID!
 
 *********** check for on prem in the "roles and administrator's" filter to check whether it is hybrid AD or not *************
 
+************************* User settings need to check ********************* 
+
+MSGraph API: 
+-------------
+
+The Microsoft Graph API is a unified, RESTful web API that serves as the gateway to data and intelligence across Microsoft
+cloud services, including Microsoft 365, Windows, and Microsoft Entra ID (formerly Azure AD). It provides a single endpoint
+(https://graph.microsoft.com) for developers to build applications that interact with millions of users and their data. 
+
+
