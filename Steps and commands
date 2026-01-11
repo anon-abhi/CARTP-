@@ -47,3 +47,23 @@ Step -1
     - Import-Module C:\AzAD\Tools\MicroBurst\MicroBurst.psm1 -Verbose
 • Enumerate all subdomains for an organization specified using the '-Base' parameter:
     - Invoke-EnumerateAzureSubDomains -Base defcorphq -Verbose
+
+
+
+-------------------------------------------------------------------------------------------------------------------------
+    For Lab  :  Please find the credentials of "test@defcorphq.onmicrosoft.com" in the lab portal - enterprisesecurity.io
+---------------------------------------------------------------------------------------------------------------------------
+
+A normal user has many interesting permissions in Entra ID!
+=========================================================== 
+
+- Read all users, Groups, Applications, Devices, Roles, Subscriptions, and their public properties
+- Invite Guests
+- Create Security groups
+- Read "non-hidden" Group memberships
+- Add guests to Owned groups
+- Create new application
+- Add up to '50' devices to Azure
+
+*********** check for on prem in the "roles and administrator's" filter to check whether it is hybrid AD or not *************
+
