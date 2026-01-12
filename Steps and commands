@@ -80,5 +80,9 @@ Use Install-Module Microsoft.Graph to install (needs internet).
 *Already installed on the student VM.*
 • Not to be confused with Microsoft Graph CLI :P Attacking
 
+ Note :- 
 
+ Now we need to find out the access token, we will find the graph token. 
+
+ Step 1 : Login in myaccount.
 
