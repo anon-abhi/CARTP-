@@ -84,5 +84,32 @@ Use Install-Module Microsoft.Graph to install (needs internet).
 
  Now we need to find out the access token, we will find the graph token. 
 
- Step 1 : Login in myaccount.
+ Connect-MgGraph
+•
+We can also login using an access token
 
+
+ Step 1 : Login in myaccount.microsoft.com
+ Step 2 : Search for organization in network to get the bearar token 
+ Step 3 : $GraphToken = eyJ0…
+          Connect-MgGraph –AccessToken ($GraphToken | ConvertTo-SecureString -AsPlainText -Force) 
+ Step 4 :
+ 
+• Get the current session state : 
+    - Get-MgContext
+• Get details of the current tenant (Available in Beta version) : 
+    - Get-MgOrganization | fl *
+• Enumerate all users : 
+    - Get-MgUser -All
+• Enumerate a specific user : 
+    - Get-MgUser -UserIdtest@defcorphq.onmicrosoft.com
+• Search for a user based on string in first characters of DisplayName or userPrincipalName (wildcard not supported) : 
+    - Get-MgUser -Filter "startsWith(DisplayName, 'a')" -ConsistencyLevel eventual
+• Search for users who contain the word "admin" in their Display name: 
+    - Get-MgUser -All |?{$_.Displayname -match "admin"}
+    - Get-MgUser -Search '"DisplayName:admin"' -ConsistencyLevel eventual
+• List all the attributes for a user
+    - Get-MgUser -UserIdtest@defcorphq.onmicrosoft.com | fl *
+    - Get-MgUser -UserIdtest@defcorphq.onmicrosoft.com | %{$_.PSObject.Properties.Name}
+• Search attributes for all users that contain the string "password":
+    - Get-MgUser -All |%{$Properties = $_;$Properties.PSObject.Properties.Name | % {if ($Properties.$_ -match 'password') {"$($Properties.UserPrincipalName) - $_ - $($Properties.$_)"}}}
