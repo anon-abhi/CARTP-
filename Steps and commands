@@ -93,7 +93,7 @@ We can also login using an access token
  Step 2 : Search for organization in network to get the bearar token 
  Step 3 : $GraphToken = eyJ0…
           Connect-MgGraph –AccessToken ($GraphToken | ConvertTo-SecureString -AsPlainText -Force) 
- Step 4 :
+ Step 4 : Run the below commands for information gathering 
  
 • Get the current session state : 
     - Get-MgContext
@@ -113,3 +113,126 @@ We can also login using an access token
     - Get-MgUser -UserIdtest@defcorphq.onmicrosoft.com | %{$_.PSObject.Properties.Name}
 • Search attributes for all users that contain the string "password":
     - Get-MgUser -All |%{$Properties = $_;$Properties.PSObject.Properties.Name | % {if ($Properties.$_ -match 'password') {"$($Properties.UserPrincipalName) - $_ - $($Properties.$_)"}}}
+• All users who are synced from on-prem
+    - Get-MgUser -All | ?{$_.OnPremisesSecurityIdentifier -ne $null}
+• All users who are from Entra ID
+    - Get-MgUser -All | ?{$_.OnPremisesSecurityIdentifier -eq $null}
+• Objects created by any user (use -ObjectId for a specific user)
+    - Get-MgUserCreatedObject -UserId test@defcorphq.onmicrosoft.com | fl *
+•
+Objects owned by a specific user
+Get-MgUserOwnedObject -UserId test@defcorphq.onmicrosoft.com | fl *
+•
+List all Groups
+Get-MgGroup -All
+•
+Enumerate a specific group
+Get-MgGroup -GroupId 783a312d-0de2-4490-92e4-539b0e4ee03e
+•
+Search for a group based on string in first characters of DisplayName (wildcard not supported)
+Get-MgGroup -ConsistencyLevel eventual -Search '"DisplayName:A"'
+•
+To search for groups which contain the word "admin" in their name:
+Get-MgGroup -ConsistencyLevel eventual -Search '"DisplayName:Admin"'
+•
+Get Groups that allow Dynamic membership
+Get-MgGroup | ?{$_.GroupTypes -eq 'DynamicMembership'}
+•
+All groups that are synced from on-prem (note that security groups are not synced)
+Get-MgGroup -All| ?{$_.OnPremisesSecurityIdentifier -ne $null}
+•
+All groups that are from Entra ID
+Get-MgGroup -All | ?{$_.OnPremisesSecurityIdentifier -eq $null}
+•
+Get members of a group
+Get-MgGroupMember -GroupId 783a312d-0de2-4490-92e4-539b0e4ee03e
+•
+Get groups and roles where the specified user is a member
+(Get-MgUserMemberOf -UserId test@defcorphq.onmicrosoft.com ).AdditionalProperties
+•
+Get all available role templates
+Get-MgDirectoryRoleTemplate
+•
+Get all enabled roles (a built-in role must be enabled before usage)
+Get-MgDirectoryRole
+•
+Enumerate users to whom roles are assigned
+$RoleId = (Get-MgDirectoryRole -Filter "DisplayName eq 'Global Administrator'").Id
+(Get-MgDirectoryRoleMember -DirectoryRoleId $RoleId).AdditionalProperties
+
+•	Get all Azure joined and registered devices
+Get-MgDevice –All | fl *
+
+•	List all the active devices (and not the stale devices)
+Get-MgDevice –All | ?{$_.ApproximateLastSignInDateTime - ne $null}
+ 
+Enumeration – Mg Module - Devices
+==================================
+•	List devices owned by a user
+(Get-MgUserOwnedDevice -userId michaelmbarron@defcorphq.onmicrosoft.com).AdditionalProperties
+•	List devices registered by a user
+(Get-MgUserRegisteredDevice -userId michaelmbarron@defcorphq.onmicrosoft.com).AdditionalProperties
+
+•	List devices managed using Intune
+Get-MgDevice -All| ?{$_.IsCompliant -eq "True"} | fl *
+ 
+Enumeration Mg Module - Apps
+===============================
+•	Get all the application objects registered with the current tenant (visible in App Registrations in Azure portal). An application object is the global representation of an app.
+Get-MgApplication -All
+
+•	Get all details about an application
+Get-MgApplicationByAppId -AppId f072c4a6-b440-40de-983f-
+a7f3bd317d8f  | fl *
+
+•	Get an application based on the display name
+Get-MgApplication -All | ?{$_.DisplayName -match "app"}
+
+•	The Get-MgApplication will show all the applications details including password but password value is not shown. List all the apps with an application password
+Get-MgApplication -All| ?{$_.PasswordCredentials -ne $null}
+ 
+Enumeration – Mg Module - Apps
+================================
+•	Get owner of an application
+(Get-MgApplicationOwner -ApplicationId 35589758- 714e-43a9-be9e- 94d22fdd34f6).AdditionalProperties.userPrincipalName
+
+•	Get Apps where a User has a role (exact role is not shown) Get-MgUserAppRoleAssignment -UserId roygcain@defcorphq.onmicrosoft.com | fl *
+
+•	Get Apps where a Group has a role (exact role is not shown)
+Get-MgGroupAppRoleAssignment -GroupId 57ada729-a581- 4d6f-9f16-3fe0961ada82 | fl *
+ 
+Enumeration – Mg Module - Service Principals
+•	Enumerate Service Principals (visible as Enterprise Applications in Azure Portal). Service principal is local representation for an app in a specific tenant and it is the security object that has privileges. This is the 'service account'!
+•	Service Principals can be assigned Azure roles.
+•	Get all service principals
+Get-MgServicePrincipal -All
+
+•	Get all details about a service principal
+Get-MgServicePrincipal -ServicePrincipalId fd518680-b290-4db2-b92a-5dbd025c6791
+| fl *
+
+•	Get an service principal based on the display name
+Get-MgServicePrincipal –All | ?{$_.DisplayName -match "app"}
+
+•	List all the service principals with an application password
+Get-MgServicePrincipal –All | ?{$_.KeyCredentials -ne $null}
+ 
+Enumeration – Mg Module - Service Principals
+•	Get owner of a service principal
+(Get-MgServicePrincipalOwner -ServicePrincipalId fd518680-b290-4db2- b92a-5dbd025c6791).AdditionalProperties.userPrincipalName
+
+•	Get objects owned by a service principal
+Get-MgServicePrincipalOwnedObject -ServicePrincipalId fd518680-b290-
+4db2-b92a-5dbd025c6791
+
+•	Get objects created by a service principal
+Get-MgServicePrincipalCreatedObject -ServicePrincipalId fd518680-
+b290-4db2-b92a-5dbd025c6791
+ 
+Enumeration – Mg Module - Service Principals
+•	Get group and role memberships of a service principal
+Get-MgServicePrincipalMemberOf -ServicePrincipalId fd518680-b290-4db2-b92a-5dbd025c6791 | fl *
+
+=================================================
+** Intall AZ command module - Install-Module Az 
+==================================================
