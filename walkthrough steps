@@ -1,0 +1,24 @@
+===================================================
+Extracting ARM tokens / Access Token from browser
+======================================================
+Similarly, we can extract the ARM token too. Once again, let's use test@defcorphq.onmicrosoft.com as an example. 
+1.	Go to https://cosmos.azure.com and press F12 in the browser and click on Network tab. Make sure the 'Preserve log' checkbox is checked. 
+2.	Click on Sign In and use the test@defcorphq.onmicrosoft.com user credentials. 
+3.	In the 'Filter' field of network tab in the browser, search for 'resources', click on 'resources' in the results, scroll down to Request Headers and check that 'authority' is management.azure.com and copy the access token.
+
+========================================================
+Extracting Graph API tokens from browser
+==========================================
+Let's use test@defcorphq.onmicrosoft.com as an example. You can get test user credentials from the lab portal – enterprisesecurity.io
+Use the credentials to logon to https://myaccount.microsoft.com/ to avoid MFA. Follow these steps to extract an access token for the Graph API. 
+1.	After logging in to myaccount.microsoft.com as test user, press F12 in the browser and click on Network tab. Make sure the 'Preserve log' checkbox is checked. 
+2.	Click on 'Organizations'. 
+3.	In the 'Filter' field of network tab in the browser, search for 'organization'. Click on 'organization' in the results, scroll down to Request Headers and check that 'authority' is graph.microsoft.com and copy the access token.
+
+
+
+azure Hound -- 
+
+MATCH p = (:AZBase)-[:AZGlobalAdmin*1..]->(:AZTenant)
+RETURN p
+LIMIT 1000
