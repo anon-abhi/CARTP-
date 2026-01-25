@@ -15,6 +15,7 @@ Use the credentials to logon to https://myaccount.microsoft.com/ to avoid MFA. F
 2.	Click on 'Organizations'. 
 3.	In the 'Filter' field of network tab in the browser, search for 'organization'. Click on 'organization' in the results, scroll down to Request Headers and check that 'authority' is graph.microsoft.com and copy the access token.
 
+Connect-MgGraph --- > without MFA 
 
 
 azure Hound -- 
